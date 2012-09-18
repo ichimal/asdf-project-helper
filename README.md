@@ -36,8 +36,8 @@ If *you* want to include the contents of `README.txt` into the "`long-descriptio
       :name "foo"
       :description "short description"
       ;; Use :defsystem-depends-on instead of :depends-on.
-      :defsystem-depends-on ((:asdf-project-helper))
-      :components ((file: "foo")) )
+      :defsystem-depends-on (:asdf-project-helper)
+      :components ((:file "foo")) )
 
     (defmethod perform :after ((o load-op)
                                (c (eql (find-system :foo))) )
