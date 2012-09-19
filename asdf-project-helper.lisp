@@ -3,7 +3,7 @@
 (defpackage :asdf-project-helper
   (:nicknames :aph)
   (:use :cl)
-  (:export #:convert-from-document-file ) )
+  (:export #:convert-from-document-file #:update-long-description) )
 
 (require :asdf)
 
@@ -33,4 +33,9 @@
                               (ist stream) (ost stream) )
   (warn "Currently not supported markdown conversion; read as plain text, instead")
   (convert-to-string :plain-text ist ost) )
+
+(defmacro update-long-description (fname system
+                                   &key ((:type ftype) :plain-text))
+  `(setf (asdf:system-long-description (asdf:find-system ,system))
+         (convert-from-document-file ,fname ,system :type ,ftype) ))
 

@@ -3,7 +3,7 @@ asdf-project-helper
 
 A project maintenance helper utilities with ASDF
 
-## API:
+## APIs:
 
 ### *[Function]* `CONVERT-FROM-DOCUMENT-FILE`:
 
@@ -16,6 +16,20 @@ e.g. `(convert-from-document-file "readme.txt" :systemname)`
   Default file type is `:plain-text`.
 
   e.g. `(convert-from-document-file "readme.md" :systemname :type :markdown)`
+
+### *[Macro]* `update-long-description`:
+
+Simple wrapper of `convert-from-document-file` to update `long-description` field of a given system.
+
+e.g.
+
+    (update-long-description "readme.txt" :systemname)
+
+will be expanded to
+
+    (setf (asdf:system-long-description (asdf:find-system :systemname))
+          (convert-from-document-file "readme.txt" :systemname) )
+
 
 ## use case:
 For example, making a Common Lisp project "`foo`" with ASDF.
@@ -43,8 +57,7 @@ If *you* want to include the contents of `README.txt` into the "`long-descriptio
                                (c (eql (find-system :foo))) )
       (declare (ignore o c))
       ;; aph is a nickname of asdf-project-helper package
-      (setf (system-long-description (find-system :foo))
-            (aph:convert-from-document-file "README.txt" :foo ) ))
+      (aph:update-long-description "README.txt" :foo) )      
 
 And also, if you want to include the contents of `README.txt` into the documentation part of a main portion of the project (such as "function `foo`"), you can write a source code as below;
 
