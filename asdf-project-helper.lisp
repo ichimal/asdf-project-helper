@@ -31,10 +31,16 @@
         do (princ line ost) (terpri ost) )
   t )
 
+#-clisp
 (defmethod convert-to-string ((file-type (eql :markdown))
-                              (ist stream) (ost stream) )
-  (warn "Currently not supported markdown conversion; read as plain text, instead")
-  (convert-to-string :plain-text ist ost) )
+                              (path pathname) (ost stream) )
+  (markdown:markdown path :stream ost) )
+
+#+clisp
+(defmethod convert-to-string ((file-type (eql :markdown))
+                              (path pathname) (ost stream) )
+    (warn "On GNU clisp environment, markdown conversion is not supported.~%We'll read ~s as plain-text, instead.~%" path)
+    (convert-to-string :plain-text path ost) )
 
 (defmacro update-long-description (fname system
                                    &key ((:type ftype) :plain-text))
