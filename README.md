@@ -11,11 +11,13 @@ Read a document file (included in source tree of your project) into a string.
 
 e.g. `(convert-from-document-file "readme.txt" :systemname)`
 
-* You can specify file type with `:type` keyword to convert file format *(future work)*
+You can specify file type with `:type` keyword to convert file format.
 
-  Default file type is `:plain-text`.
+Supported file types are `:plain-text` (this is default) and `:markdown`.
 
-  e.g. `(convert-from-document-file "readme.md" :systemname :type :markdown)`
+e.g. `(convert-from-document-file "readme.md" :systemname :type :markdown)`
+
+*Note:* `:markdown` is not supported on GNU CLISP environment because of troubles of CL-MARKDOWN package.
 
 ### *[Macro]* `update-long-description`:
 
