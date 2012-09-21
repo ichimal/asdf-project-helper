@@ -7,7 +7,7 @@
 
 (defsystem asdf-project-helper
   :name "asdf-project-helper"
-  :version "0.0.1"
+  :version "0.0.2"
   :maintainer "SUZUKI Shingo"
   :author "SUZUKI Shingo"
   :license "MIT"
