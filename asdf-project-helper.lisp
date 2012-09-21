@@ -9,17 +9,19 @@
 
 (in-package :asdf-project-helper)
 
-(defgeneric convert-to-string (file-type ist ost))
+(defgeneric convert-to-string (file-type input output))
+
+(defun build-document-path (fname system)
+  (merge-pathnames fname (asdf:component-pathname (asdf:find-system system))) )
 
 (defun convert-from-document-file (fname system
-                                   &key ((:type ftype) :plain-text))
+                                   &key ((:type file-type) :plain-text))
   (with-output-to-string (ost)
-    (with-open-file (ist (merge-pathnames
-                           fname
-                           (asdf:component-pathname (asdf:find-system system)))
-                     :direction :input
-                     :if-does-not-exist :error )
-      (convert-to-string ftype ist ost) )))
+    (convert-to-string file-type (build-document-path fname system) ost) ))
+
+(defmethod convert-to-string (file-type (path pathname) (ost stream))
+  (with-open-file (ist path :direction :input :if-does-not-exist :error)
+    (convert-to-string file-type ist ost) ))
 
 (defmethod convert-to-string ((file-type (eql :plain-text))
                               (ist stream) (ost stream) )
