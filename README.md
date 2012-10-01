@@ -19,7 +19,7 @@ e.g. `(convert-from-document-file "readme.md" :systemname :type :markdown)`
 
 *Note:* `:markdown` is not supported on GNU CLISP environment because of troubles of CL-MARKDOWN package.
 
-### *[Macro]* `update-long-description`:
+### *[Macro]* `UPDATE-LONG-DESCRIPTION`:
 
 Simple wrapper of `convert-from-document-file` to update `long-description` field of a given system.
 
