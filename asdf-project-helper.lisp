@@ -42,8 +42,26 @@
     (warn "On GNU clisp environment, markdown conversion is not supported.~%We'll read ~s as plain-text, instead.~%" path)
     (convert-to-string :plain-text path ost) )
 
+(defun update-cache (cache-path fname system ftype)
+  (with-open-file (ost cache-path :direction :output
+                   :if-exists :supersede :if-does-not-exist :create )
+    (princ (convert-from-document-file fname system :type ftype) ost) ))
+
+(defun get-rendered-long-description (fname system
+                                      &key ((:type ftype) :plain-text))
+  ;; check and update cache file and get result
+  (let* ((source-path (build-document-path fname system))
+         (cache-path (build-document-path "long-desctiption.cache" system))
+         (source-date (asdf-utils:safe-file-write-date source-path))
+         (cache-date (asdf-utils:safe-file-write-date cache-path)) )
+    (when (or (not cache-date) (> source-date cache-date))
+      (update-cache cache-path fname system ftype) )
+    (when (asdf-utils:safe-file-write-date cache-path)
+      (with-output-to-string (ost)
+        (convert-to-string :plain-text cache-path ost) ))))
+
 (defmacro update-long-description (fname system
                                    &key ((:type ftype) :plain-text))
   `(setf (asdf:system-long-description (asdf:find-system ,system))
-         (convert-from-document-file ,fname ,system :type ,ftype) ))
+         (get-rendered-long-description ,fname ,system :type ,ftype) ))
 

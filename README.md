@@ -21,17 +21,13 @@ e.g. `(convert-from-document-file "readme.md" :systemname :type :markdown)`
 
 ### *[Macro]* `UPDATE-LONG-DESCRIPTION`:
 
-Simple wrapper of `convert-from-document-file` to update `long-description` field of a given system.
+Wrapper of `convert-from-document-file` to update `long-description` field of a given system.
+
+The rendered `long-description` will be cached into a file, "long-description.cache".
 
 e.g.
 
     (update-long-description "readme.txt" :systemname)
-
-will be expanded to
-
-    (setf (asdf:system-long-description (asdf:find-system :systemname))
-          (convert-from-document-file "readme.txt" :systemname) )
-
 
 ## use case:
 For example, making a Common Lisp project "`foo`" with ASDF.

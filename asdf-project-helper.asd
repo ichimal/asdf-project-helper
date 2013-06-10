@@ -12,7 +12,7 @@
   :author "SUZUKI Shingo"
   :license "MIT"
   :description "A project maintenance helper utilities with ASDF"
-  :depends-on (#-clisp :cl-markdown)
+  :depends-on (:asdf-utils #-clisp :cl-markdown)
   :components
     ((:file "asdf-project-helper")) )
 
